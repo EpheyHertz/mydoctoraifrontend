@@ -1,0 +1,17 @@
+/* styles/Appointments.module.css */
+.cardContainer {
+    margin-bottom: 16px;
+  }
+  
+  .appointmentStatusOverdue {
+    background-color: grey;
+  }
+  
+  .appointmentStatusPending {
+    background-color: green;
+  }
+  
+  .appointmentStatusCancelled {
+    background-color: redOrange;
+  }
+  
