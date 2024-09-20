@@ -1,185 +1,127 @@
-"use client"; // Client Component
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-const SignUp = () => {
-  const [isMounted, setIsMounted] = useState(false); // Track component mounting
-  const [userType, setUserType] = useState("patient");
+const Signup = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    licenseNumber: '',
-    specialization: '',
-    dob: ''
+    role: 'patient', // Removed symptoms, role remains
   });
-
+  const [errors, setErrors] = useState('');
   const router = useRouter();
 
-  // Ensure component renders on the client side
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Prevent rendering on the server side until fully mounted on client
-  if (!isMounted) {
-    return null;
-  }
-
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      ...(userType === 'doctor' && { licenseNumber: formData.licenseNumber, specialization: formData.specialization }),
-      ...(userType === 'patient' && { dob: formData.dob })
-    };
-
     try {
-      const response = await fetch('/apis/signup', {
+      const response = await fetch('http://127.0.0.1:8000/apis/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(formData),
       });
 
+      const result = await response.json();
+      console.log('Backend Response:', result); // Check backend response
+
       if (response.ok) {
-        router.push('/login'); // 👈 Redirect to login page after successful sign-up
+        // Success case, redirect to login page
+        alert(result.message); // Show success message
+        router.push('/auth/login'); // Redirect to login page after successful signup
       } else {
-        console.error('Sign-up failed');
+        // If not successful, show errors
+        setErrors(result.message || 'Registration failed');
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error('Error during registration:', error);
+      setErrors('An error occurred. Please try again.');
     }
+    console.log('Form Data:', formData);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
-
-        {/* Toggle between Doctor and Patient */}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">I am a:</label>
-          <select
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg">
-            <option value="patient">Patient</option>
-            <option value="doctor">Doctor</option>
-          </select>
-        </div>
-
-        {/* Sign-up form */}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">Name</label>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+        {errors && <p className="text-red-500 mb-4">{errors}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="username" className="block text-gray-700">Username</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
-          
-          <div className="mb-4">
-            <label className="block text-gray-700">Email</label>
+          <div>
+            <label htmlFor="email" className="block text-gray-700">Email</label>
             <input
               type="email"
+              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
-          
-          <div className="mb-4">
-            <label className="block text-gray-700">Password</label>
+          <div>
+            <label htmlFor="password" className="block text-gray-700">Password</label>
             <input
               type="password"
+              id="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
-          
-          <div className="mb-4">
-            <label className="block text-gray-700">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
+          <div>
+            <label htmlFor="role" className="block text-gray-700">Role</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
               onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
-              className="w-full p-2 border border-gray-300 rounded-lg"
-            />
+            >
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+            </select>
           </div>
-
-          {/* Conditional Fields for Doctor */}
-          {userType === 'doctor' && (
-            <>
-              <div className="mb-4">
-                <label className="block text-gray-700">Medical License Number</label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  value={formData.licenseNumber}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">Specialization</label>
-                <input
-                  type="text"
-                  name="specialization"
-                  value={formData.specialization}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-            </>
-          )}
-
-          {/* Conditional Fields for Patient */}
-          {userType === 'patient' && (
-            <>
-              <div className="mb-4">
-                <label className="block text-gray-700">Date of Birth</label>
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-            </>
-          )}
-
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-lg">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700"
+          >
             Sign Up
           </button>
+          <p className="text-center text-gray-600">
+            Already have an account?{' '}
+            <Link href="/auth/login" className="text-blue-600 hover:underline">
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default Signup;
+
