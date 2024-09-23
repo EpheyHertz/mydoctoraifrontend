@@ -120,9 +120,9 @@ const Nav = () => {
                 <Link href="/view-profile" className="text-white hover:text-gray-200 px-4 py-2">
                   Profile
                 </Link>
-                <Link href="/update-profile" className="text-white hover:text-gray-200 px-4 py-2">
+                {/* <Link href="/update-profile" className="text-white hover:text-gray-200 px-4 py-2">
                   Update Profile
-                </Link>
+                </Link> */}
                 <Link href="/my-appointments" className="text-white hover:text-gray-200 px-4 py-2">
                   Appointments
                 </Link>
