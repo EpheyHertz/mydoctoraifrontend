@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -8,7 +8,7 @@ const Signup = () => {
     username: '',
     email: '',
     password: '',
-    role: 'patient',
+    role: 'patient', // Removed symptoms, role remains
   });
   const [errors, setErrors] = useState('');
   const router = useRouter();
@@ -25,26 +25,27 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-    const response = await fetch('http://127.0.0.1:8000/apis/signup/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const result = await response.json();
-    console.log('Backend Response:', result); // Check backend response
+      const response = await fetch('http://127.0.0.1:8000/apis/signup/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    if (response.ok) {
-      // Success case, redirect to login page
-      alert(result.message); // Show success message
-      router.push('/auth/login'); // Redirect
-    } else {
-      // If not successful, show errors
-      setErrors(result.message || 'Registration failed');
+      const result = await response.json();
+      console.log('Backend Response:', result); // Check backend response
+
+      if (response.ok) {
+        // Success case, redirect to login page
+        alert(result.message); // Show success message
+        router.push('/auth/login'); // Redirect to login page after successful signup
+      } else {
+        // If not successful, show errors
+        setErrors(result.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setErrors('An error occurred. Please try again.');
     }
-  } catch (error) {
-    console.error('Error during registration:', error);
-    setErrors('An error occurred. Please try again.');
-  }
     console.log('Form Data:', formData);
   };
 
