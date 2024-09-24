@@ -8,7 +8,7 @@ const Signup = () => {
     username: '',
     email: '',
     password: '',
-    role: 'patient', // Removed symptoms, role remains
+    title : 'patient', // Removed symptoms, role remains
   });
   const [errors, setErrors] = useState('');
   const router = useRouter();
