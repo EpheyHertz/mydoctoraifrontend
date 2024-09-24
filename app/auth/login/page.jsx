@@ -75,11 +75,11 @@ const Login = () => {
             />
           </div>
           <div>
-            <label htmlFor="role" className="block text-gray-700">Role</label>
+            <label htmlFor="title " className="block text-gray-700">Title </label>
             <select
-              id="role"
-              name="role"
-              value={formData.role}
+              id="title "
+              name="title "
+              value={formData.title }
               onChange={handleChange}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               required
