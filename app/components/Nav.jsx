@@ -16,7 +16,7 @@ const Nav = () => {
   const handleSignOut = async () => {
     try {
       // Call backend logout API
-      const response = await fetch('http://127.0.0.1:8000/apis/logout/', {
+      const response = await fetch('https://doctorai-cw25.onrender.com//apis/logout/', {
         method: 'POST', // or 'GET' depending on your backend setup
         headers: {
           'Content-Type': 'application/json',
