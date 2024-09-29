@@ -69,7 +69,7 @@ const UserProfile = () => {
   const refreshAccessToken = useCallback(async () => {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
-      const response = await fetch('http://127.0.0.1:8000/apis/token/refresh/', {
+      const response = await fetch('https://doctorai-cw25.onrender.com/apis/token/refresh/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetchWithTokenRefresh('http://127.0.0.1:8000/apis/update/', {
+        const response = await fetchWithTokenRefresh('https://doctorai-cw25.onrender.com/apis/update/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const UserProfile = () => {
     setErrors(null);
 
     try {
-      const response = await fetchWithTokenRefresh('http://127.0.0.1:8000/apis/update/', {
+      const response = await fetchWithTokenRefresh('https://doctorai-cw25.onrender.com/apis/update/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
