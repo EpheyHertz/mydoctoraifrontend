@@ -31,7 +31,7 @@ const AppointmentsPage = () => {
 
     const fetchUser = async () => {
       try {
-        const { data } = await axios.get('http://127.0.0.1:8000/apis/user/', {
+        const { data } = await axios.get('https://doctorai-cw25.onrender.com/apis/user/', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ const AppointmentsPage = () => {
 
   const fetchAppointments = async (token) => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:8000/apis/my-appointments/', {
+      const { data } = await axios.get('https://doctorai-cw25.onrender.com/apis/my-appointments/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -80,7 +80,7 @@ const AppointmentsPage = () => {
 
   const fetchDoctors = async (token) => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:8000/apis/doctors/', {
+      const { data } = await axios.get('https://doctorai-cw25.onrender.com/apis/doctors/', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -94,7 +94,7 @@ const AppointmentsPage = () => {
   const handleCancelAppointment = async (appointmentId) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.post(`http://127.0.0.1:8000/apis/cancel-appointment/${appointmentId}/`, null, {
+      await axios.post(`https://doctorai-cw25.onrender.com/apis/cancel-appointment/${appointmentId}/`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
