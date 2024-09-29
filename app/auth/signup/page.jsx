@@ -25,7 +25,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('//https://doctorai-cw25.onrender.com/', {
+      const response = await fetch('//https://doctorai-cw25.onrender.com/apis/signup/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
