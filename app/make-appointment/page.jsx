@@ -37,7 +37,7 @@ const BookAppointmentPage = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const { data } = await axios.get('http://127.0.0.1:8000/apis/doctors/', {
+        const { data } = await axios.get('https://doctorai-cw25.onrender.com/apis/doctors/', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -87,7 +87,7 @@ const BookAppointmentPage = () => {
 
     try {
       await axios.post(
-        'http://127.0.0.1:8000/apis/book-appointment/',
+        'https://doctorai-cw25.onrender.com/apis/book-appointment/',
         {
           doctor_username: selectedDoctor,
           date: appointmentDateTime.toISOString(),
