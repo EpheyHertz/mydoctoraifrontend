@@ -1,7 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+On your local machine after cloning the repo
+```bash
+npm install
 
+npm audit fix
+
+```
 First, run the development server:
 
 ```bash
